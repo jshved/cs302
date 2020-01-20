@@ -1,2 +1,1 @@
-# project01
-cs302 project01
+# cs_302
