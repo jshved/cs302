@@ -1,3 +1,11 @@
+// sb-play.cpp
+// project03
+// Author: Logan Tillman
+// Date: February 26, 2020
+
+/* This is a program that plays the game Superball. It will give either a SWAP or SCORE command
+   through standard output. */
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -80,11 +88,22 @@ Superball::Superball(int argc, char **argv)
   }
 }
 
+// This function will analyze the board and determine the sets that are scoreable
 void analyze_superball(DisjointSet *&ds, Superball *&s, map <int, int> &possiblescores, vector <int> &occurances);
+
+// This function checks to see if a swap with the element above is possible
 void checktop(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2);
+
+// This function checks to see if a swap with the element on the left is possible
 void checkleft(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2);
+
+// This function checks to see if a swap with the element on the right is possible
 void checkright(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2);
+
+// This function checks to see if a swap with the element below is possible
 void checkbottom(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2);
+
+// This function will swap two random cells if no swap has been performed already
 void swaprandom(DisjointSet *&ds, Superball *&s, unsigned int &swap1, unsigned int &swap2);
 
 int main(int argc, char **argv)
@@ -100,13 +119,16 @@ int main(int argc, char **argv)
     s = new Superball(argc, argv);
     ds = new DisjointSetByRankWPC (s->r*s->c);
 
+	// Analyzing the board to determine scoring sets
 	analyze_superball(ds, s, possiblescores, occurances);
 
+	// If there are possible scores, this will execute
 	if (possiblescores.empty() == false)
 	{
 		maxpoints = possiblescores.begin()->second;
 		location = possiblescores.begin()->first;
 
+		// Find the scoring set with the maximum points and save its location
 		for (pit = possiblescores.begin(); pit != possiblescores.end(); pit++)
 		{
 			if (pit->second > maxpoints)
@@ -116,8 +138,11 @@ int main(int argc, char **argv)
 			}
 		}
 
+		// Score the set
 		cout << "SCORE " << location/s->c << " " << location%s->c << '\n';
 	}
+
+	// If there aren't any possible scores
 	else
 	{
 		unsigned int swap1, swap2;
@@ -126,6 +151,7 @@ int main(int argc, char **argv)
 		swap1 = 0;
 		swap2 = 1;
 
+		// Find the longest set of connected nodes
 		for (unsigned int i = 0; i < occurances.size(); i++)
 		{
 			if (occurances[i] > maxlength)
@@ -135,37 +161,41 @@ int main(int argc, char **argv)
 			}
 		}
 
+		// Save the location of all vertices inside the set of blocks
 		for (unsigned int i = 0; i < s->board.size(); i++)
 		{
 			if (ds->Find(i) == location)
 				vertices.push_back(i);
 		}
 
+		// Loop through each vertex
 		for (int i = 0; i < (int) vertices.size(); i++)
 		{
-			// If on left side of graph
+			// If the vertex is on left side of graph and a swap hasn't been performed
 			if (((vertices[i] % s->c) / (s->c / 2)) == 0)
 			{
+				// Check to see if the element to the left is available to swap. If so, do it.
 				if (swap1 == 0 && swap2 == 1)
 					checkleft(ds, s, vertices[i], swap1, swap2);
 			}
 
-			// If on right side of graph
+			// If the vertex is on the right side of the graph and still no swap has been made
 			else
 			{
+				// Try to swap with the element on the right
 				if (swap1 == 0 && swap2 == 1)
 					checkright(ds, s, vertices[i], swap1, swap2);
 			}
 
+			// Still, if no swap has been made, then it tries to swap with the element above, then the element below
 			if (swap1 == 0 && swap2 == 1)
 				checktop(ds, s, vertices[i], swap1, swap2);
 
-			//FIXME if there are no paths, it's choosing an invalid path for it's vertices
-//			cout << "vertices[i] = " << i << " " << vertices[i] << '\n';
 			if (swap1 == 0 && swap2 == 1)
 				checkbottom(ds, s, vertices[i], swap1, swap2);
 		}
 
+		// After all the attempts for each vertex, if no swap has been made, it swaps two random cells
 		if (swap1 == 0 && swap2 == 1)
 			swaprandom(ds, s, swap1, swap2);
 
@@ -174,6 +204,7 @@ int main(int argc, char **argv)
 
 }
 
+// This function determines the sets available to be scored
 void analyze_superball(DisjointSet *&ds, Superball *&s, map <int, int> &possiblescores, vector <int> &occurances)
 {
     int cells;
@@ -181,6 +212,7 @@ void analyze_superball(DisjointSet *&ds, Superball *&s, map <int, int> &possible
     cells = s->r * s->c;
     occurances.resize(cells, 0);
 
+	// Looping through each cell on the board
     for (int i = 0; i < cells; i++)
     {
         int top, left, right, bottom;
@@ -190,55 +222,64 @@ void analyze_superball(DisjointSet *&ds, Superball *&s, map <int, int> &possible
         right = i % s->c + 1;
         bottom = i + s->c;
 
-        if(top >= 0)
+		// Checks to see if the top exists, and is available for union
+        if (top >= 0)
         {
-            if(s->board[top] == s->board[i] && s->board[i] > 96)
+            if (s->board[top] == s->board[i] && s->board[i] > 96)
             {
-                if(ds->Find(top) != ds->Find(i))
+                if (ds->Find(top) != ds->Find(i))
                     ds->Union(ds->Find(i), ds->Find(top));
             }
         }
 
-        if(bottom < cells)
+		// Checks to see if the bottom exists and is available for union
+        if (bottom < cells)
         {
-            if(s->board[bottom] == s->board[i] && s->board[i] > 96)
+            if (s->board[bottom] == s->board[i] && s->board[i] > 96)
             {
                 if(ds->Find(bottom) != ds->Find(i))
                     ds->Union(ds->Find(i), ds->Find(bottom));
             }
         }
 
-        if(left >= 0)
+		// Checks to see if the left exists and is available for union
+        if (left >= 0)
         {
-            if(s->board[i-1] == s->board[i] && s->board[i] > 96)
+            if (s->board[i-1] == s->board[i] && s->board[i] > 96)
             {
-                if(ds->Find(i-1) != ds->Find(i))
+                if (ds->Find(i-1) != ds->Find(i))
                     ds->Union(ds->Find(i), ds->Find(i-1));
             }
         }
 
-        if(right < s->c)
+		// Checks to see if the right exists and is available for union
+        if (right < s->c)
         {
-            if(s->board[i+1] == s->board[i] && s->board[i] > 96)
+            if (s->board[i+1] == s->board[i] && s->board[i] > 96)
             {
-                if(ds->Find(i+1) != ds->Find(i))
+                if (ds->Find(i+1) != ds->Find(i))
                     ds->Union(ds->Find(i), ds->Find(i+1));
             }
         }
     }
 
+	// Finds the size of each color group
     for (int i = 0; i < cells; i++)
 	{
 		if (s->board[i] > 96)
 			occurances[ds->Find(i)]++;
 	}
 
+	// Looping through each color group
     for (unsigned int i = 0; i < occurances.size(); i++)
     {
+		// Determining if the size is great enough to be scored
         if (occurances[i] >= s->mss)
         {
+			// If the size is great enough, it checks to see if one of the elements falls within a goal
             for (unsigned int j = 0; j < s->goals.size(); j++)
             {
+				// Stores the value if a score is possible
                 if (s->goals[j] == 1 && ds->Find(j) == i)
                 {
                     possiblescores[j] = occurances[i];
@@ -249,17 +290,21 @@ void analyze_superball(DisjointSet *&ds, Superball *&s, map <int, int> &possible
     }
 }
 
+// Checks to see if a swap with the element above is valid
 void checktop(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2)
 {
+	// Making sure the top element exists
 	if (i-s->c >= 0)
     {
+		// Checking to see if there's a different color above
     	if (s->board[i-s->c] != s->board[i] && s->board[i-s->c] > 96)
         {
+			// If so, then it finds the desired color it wants to swap with
             for (unsigned int j = 0; j < s->board.size(); j++)
             {
+				// Performs the swap
                 if ((ds->Find(j) != ds->Find(i)) && (s->board[i] == s->board[j]))
 				{
-//					cout << "Updating swap in top\n";
                     swap1 = i-s->c;
                     swap2 = j;
 					return;
@@ -269,17 +314,20 @@ void checktop(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsi
 	}
 }
 
+// Checks to see if a swap with the element to the left is valid
 void checkleft(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2)
 {
+	// Making sure the element to the left exists
 	if (i%s->c-1 >= 0)
     {
+		// Checking to see if there's a different color to the left
     	if (s->board[i-1] != s->board[i] && s->board[i-1] > 96)
         { 
+			// If so, then it finds the desired color to swap with and swaps them
             for (unsigned int j = 0; j < s->board.size(); j++)
             {
                 if (ds->Find(j) != ds->Find(i) && (s->board[i] == s->board[j]))
                 {
-//					cout << "Updating swap in left\n";
                     swap1 = i-1;
                     swap2 = j;
 					return;
@@ -289,17 +337,20 @@ void checkleft(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, uns
 	}
 }
 
+// The same concept as before, but it checks the cell to the right
 void checkright(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2)
 {
+	// Checks to see if the right is valid
 	if (i%s->c+1 < s->c)
     {
+		// Makes sure there's a different color to the right
     	if (s->board[i+1] != s->board[i] && s->board[i+1] > 96)
         {
+			// Finds the desired swap color and performs the swap
             for (unsigned int j = 0; j < s->board.size(); j++)
             {
                 if ((ds->Find(j) != ds->Find(i)) && (s->board[i] == s->board[j]))
                 {
-//					cout << "Updating swap in right\n";
                     swap1 = i+1;
                     swap2 = j;
 					return;
@@ -309,19 +360,20 @@ void checkright(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, un
 	}
 }
 
+// Checks the cell below for possible swap
 void checkbottom(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, unsigned int &swap2)
 {
+	// Checks to see if the cell exists
 	if (i+s->c < s->board.size())
     {
-		//FIXME
-//		cout << i << " bottom exists\n";
+		// Makes sure there's a different color below
     	if (s->board[i+s->c] != s->board[i] && s->board[i+s->c] > 96)
         {
+			// Finds the desired swap color and performs the swap
             for (unsigned int j = 0; j < s->board.size(); j++)
             {
                 if ((ds->Find(j) != ds->Find(i)) && (s->board[i] == s->board[j]))
                 {
-//					cout << "Updating swap in bottom\n";
                     swap1 = i+s->c;
                     swap2 = j;
 					return;
@@ -331,17 +383,21 @@ void checkbottom(DisjointSet *&ds, Superball *&s, int &i, unsigned int &swap1, u
 	}
 }
 
+// Swaps 2 random cells if no swap has already been made (fail safe swap method)
 void swaprandom(DisjointSet *&ds, Superball *&s, unsigned int &swap1, unsigned int &swap2)
 {
+	// The first element loops increments through the board
 	for (unsigned int i = 0; i < s->board.size(); i++)
 	{
+		// Once it finds a color, it starts with the second element
 		if (s->board[i] > 96)
 		{
+			// The second element decrements through the board from the back
 			for (unsigned int j = s->board.size()-1; j >= 0; j--)
 			{
+				// Once it finds the second color, it performs the swap
 				if (s->board[j] > 96 && i != j)
 				{
-//					cout << "Updating swap in random\n";
 					swap1 = i;
 					swap2 = j;
 					return;
