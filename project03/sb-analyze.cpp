@@ -79,81 +79,94 @@ Superball::Superball(int argc, char **argv)
   }
 }
 
+void analyze_superball(DisjointSet *&ds, Superball *&s);
+
 main(int argc, char **argv)
 {
 	Superball *s;
 	DisjointSet *ds;
-	vector <int> occurances;
-	int cells;
 
 	s = new Superball(argc, argv);
 	ds = new DisjointSetByRankWPC (s->r*s->c);
+
+	analyze_superball(ds, s);
+
+}
+
+void analyze_superball(DisjointSet *&ds, Superball *&s)
+{
+	vector <int> occurances;
+	int cells;
+	
 	cells = s->r * s->c;
 	occurances.resize(cells, 0);
 
-	for (int i = 0; i < cells; i++)
+    for (int i = 0; i < cells; i++)
+    {
+        int top, left, right, bottom;
+
+        top = i - s->c;
+        left = i % s->c - 1;
+        right = i % s->c + 1;
+        bottom = i + s->c;
+
+        if(top >= 0)
+        {
+            if(s->board[top] == s->board[i] && s->board[i] > 96)
+            {
+                if(ds->Find(top) != ds->Find(i))
+                    ds->Union(ds->Find(i), ds->Find(top));
+            }
+        }
+
+        if(bottom < cells)
+        {
+            if(s->board[bottom] == s->board[i] && s->board[i] > 96)
+            {
+                if(ds->Find(bottom) != ds->Find(i))
+                    ds->Union(ds->Find(i), ds->Find(bottom));
+            }
+        }
+
+        if(left >= 0)
+        {
+            if(s->board[i-1] == s->board[i] && s->board[i] > 96)
+            {
+                if(ds->Find(i-1) != ds->Find(i))
+                    ds->Union(ds->Find(i), ds->Find(i-1));
+            }
+        }
+
+        if(right < s->c)
+        {
+            if(s->board[i+1] == s->board[i] && s->board[i] > 96)
+            {
+                if(ds->Find(i+1) != ds->Find(i))
+                    ds->Union(ds->Find(i), ds->Find(i+1));
+            }
+        }
+    }
+
+    for (int i = 0; i < cells; i++)
 	{
-		int top, left, right, bottom;
-	
-		top = i - s->c;
-		left = i % s->c - 1;
-		right = i % s->c + 1;
-		bottom = i + s->c;
-
-		if(top >= 0)
-		{
-			if(s->board[top] == s->board[i] && s->board[i] > 96)
-			{
-				if(ds->Find(top) != ds->Find(i))
-					ds->Union(ds->Find(i), ds->Find(top));
-			}
-		}
-
-		if(bottom < cells)
-		{
-			if(s->board[bottom] == s->board[i] && s->board[i] > 96)
-			{
-				if(ds->Find(bottom) != ds->Find(i))
-					ds->Union(ds->Find(i), ds->Find(bottom));
-			}
-		}
-
-		if(left >= 0)
-		{
-			if(s->board[i-1] == s->board[i] && s->board[i] > 96)
-			{
-				if(ds->Find(i-1) != ds->Find(i))
-					ds->Union(ds->Find(i), ds->Find(i-1));
-			}
-		}
-
-		if(right < s->c)
-		{
-			if(s->board[i+1] == s->board[i] && s->board[i] > 96)
-			{	
-				if(ds->Find(i+1) != ds->Find(i))
-					ds->Union(ds->Find(i), ds->Find(i+1));
-			}
-		}
+		if (s->board[i] > 96)
+			occurances[ds->Find(i)]++;
 	}
 
-	for (int i = 0; i < cells; i++)
-		occurances[ds->Find(i)]++;
+    cout << "Scoring sets:\n";
 
-	cout << "Scoring sets:\n";
-
-	for (unsigned int i = 0; i < occurances.size(); i++)
-	{
-		if (occurances[i] >= s->mss)
-		{
-			for (unsigned int j = 0; j < s->goals.size(); j++)
-			{
-				if (s->goals[j] == 1 && ds->Find(j) == i)
-				{
-					printf("  Size:%3d  Char:%2c  Scoring Cell:%2d,%d\n", occurances[i], s->board[j], j/s->c, j%s->c);
-					break;
-				}
-			}
-		}
-	}
+    for (unsigned int i = 0; i < occurances.size(); i++)
+    {
+        if (occurances[i] >= s->mss)
+        {
+            for (unsigned int j = 0; j < s->goals.size(); j++)
+            {
+                if (s->goals[j] == 1 && ds->Find(j) == i)
+                {
+                    printf("  Size:%3d  Char:%2c  Scoring Cell:%2d,%d\n", occurances[i], s->board[j], j/s->c, j%s->c);
+                    break;
+                }
+            }
+        }
+    }
 }
