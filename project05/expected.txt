@@ -1,0 +1,10 @@
+2,0,4: NOR
+1,2,0: FRO
+2,0,3: ROB
+Cannot spell DOE
+5,1,2: JAR
+Cannot spell MBA
+3,0,2: SIR
+1,4,2: ART
+Cannot spell GAB
+5,0,4: POI
