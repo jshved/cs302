@@ -1,4 +1,55 @@
-# Project02
+# Project 2 - Sorting List-Based Strings and Numbers
+
+**[Project 2 Write Up](https://web.eecs.utk.edu/~semrich/ds20/assignments/proj02.html)**
+
+
+
+## Compile Instructions
+
+This project can be compiled by typing `make` in the base directory
+
+    ~/project02>
+    $ make
+
+## Running the Program
+
+To run `volsort` correctly, you need to specify the mode flag `-m` followed by the sorting method (`oblivious`, `stl`, `qsort`, `merge`, or `quick`). Then, you need to pipe in numbers from a `.txt` file for the program to sort.
+
+    $ volsort -h
+    usage: volsort
+        -m MODE   Sorting mode (oblivious, stl, qsort, merge, quick)
+        -n        Perform numerical ordering
+
+Example:
+
+`input.txt`
+
+    90
+    97
+    50
+    12
+    32
+    37
+    71
+    69
+    37
+    61
+
+Running `volsort` on `input.txt`:
+
+    $ volsort -m quick < input.txt
+    12
+    32
+    37
+    37
+    50
+    61
+    69
+    71
+    90
+    97
+
+## Benchmarks
 
 | Mode    | Size     | Elapsed Time  |
 |---------|----------|---------------|
@@ -8,21 +59,21 @@
 | STL     | 10000    | 0.036s        | 
 | STL     | 100000   | 0.345s        |
 | STL     | 1000000  | 7.165s        | 
-| STL     | 10000000 | 1m 27.27s     | 
+| STL     | 10000000 | 87.27s        | 
 | QSORT   | 10       | 0.002s        | 
 | QSORT   | 100      | 0.002s        | 
 | QSORT   | 1000     | 0.004s        | 
 | QSORT   | 10000    | 0.036s        | 
 | QSORT   | 100000   | 0.348s        |
 | QSORT   | 1000000  | 7.424s        | 
-| QSORT   | 10000000 | 1m 29.84s     | 
+| QSORT   | 10000000 | 89.84s        | 
 | MERGE   | 10       | 0.002s        | 
 | MERGE   | 100      | 0.002s        | 
 | MERGE   | 1000     | 0.005s        | 
 | MERGE   | 10000    | 0.036s        | 
 | MERGE   | 100000   | 0.349s        |
 | MERGE   | 1000000  | 6.921s        | 
-| MERGE   | 10000000 | 1m 26.91s     | 
+| MERGE   | 10000000 | 86.91s        | 
 | QUICK   | 10       | N/A           | 
 | QUICK   | 100      | N/A           | 
 | QUICK   | 1000     | N/A           | 
@@ -30,31 +81,20 @@
 | QUICK   | 100000   | N/A           |
 | QUICK   | 1000000  | N/A           | 
 | QUICK   | 10000000 | N/A           | 
-
-Discuss the relative performance of each sorting method and try to explain the differences.
-  -Each sorting method performed essentially the same in our testings with marginal differences between them of only a couple of seconds even when soring 10 million elements. The fastest was consistently xxxxx sort because it is an O(n(log(n)) sort.
   
-What do these results reveal about the relationship between theoretical complexity discussed in class and actual performance? 
-  -Although in theorry some of these sorting methods are supposed to be much faster than others, in practice they perform on about the same level. So complexity in theory doesn't necessarily translate to reality.
+## Contributions
   
-In your opinion, which sorting mode is the best? Justify your conclusion by examining the trade-offs for the chosen mode.
-  -The arguably best sorting method in our opinion is merge sort, programming quicksort was cumbersome and complex while merge sort makes sense in theory and in code
-  
-In addition to the questions, please provide a brief summary of each individual group members contributions to the project
-  
-  -Grant:
+Grant:
     
     -STL.cpp
-    
-    -Qsort.cpp: The only difficulty in programming tis was typecasting the void * into a Node *. I was segfaulting initially due to lacking understanding of how to fomrat the variables within the comparison function. Also the format for qsort if more confusing than STL that caused me some problems as well
-    
+    -Qsort.cpp
     -Markdown Table
     
-  -Matthew:
+Matthew:
   
      -Merge.cpp
      
-   -Logan:
+Logan:
    
     -List.cpp
     
