@@ -1,0 +1,13 @@
+Choose to run away or fight
+  If run away, increase moves by 1 and go back to previous room
+
+Fight:
+      Player goes first
+      Base attack is 20
+        Sword  +20
+        Club   +17
+        Hammer +15 
+        Axe    +12
+        Board  +7
+        Shank  +5
+        Stick  +1

@@ -1,0 +1,11 @@
+4/13/2020
+Everyone was present. We discussed how we wanted our dungeon crawler to work. We began work on room generation and the player class.
+
+4/18/20
+Everyone was present. We created and items class and changed the room generation algorithm and player class to reflect this change. A new git repo was created to save our project.
+  
+4/19/20
+ Everyone was present. We created the combat system. Some bugs were found in item generation so we worked on fixing those. We also began to port our project so that it would work on EECS computers
+  
+4/20/20
+Everyone was present. We demoed our presentation during lab. We also recorded the BYODS presentation.

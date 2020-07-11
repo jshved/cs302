@@ -1,0 +1,29 @@
+3/14/20
+Brainstorming Potential Ideas - 30 Minutes
+Install Unity and connecting to git repo/slack - 30 Minutes
+
+3/31/20
+Group Meeting deciding new direction of project due to current constraints - 1 Hour
+
+4/13/20
+Began writing template text for dungeon crawler, helped code beginning of main.cpp - 2 Hour
+
+4/17/20
+Integrated room types into the generated grid -  hour
+
+4/18/20
+Started working on item generation and inventory system - 3 Hours
+        
+4/19/2020
+Cleaned up the text output to get ready for demo
+Ported the project to GitHub
+Fixed segfaults with inventory management, connected fight system to item/inventory
+Small bug fixes related to health system
+- 4  hours
+
+4/20/2020
+Added traversal map
+Demo for TA and recorded BYODS presentation - 1 hour
+
+4/25/2020
+Commenting code and adding final touches - 30 minutes

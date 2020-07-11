@@ -1,0 +1,15 @@
+03/11/2020
+Skimmed through a c# tutorial to learn syntax and how to use language on youtube while reading some stuff on the internet 2hr
+03/13/2020
+Installed UNITY with the files and started the tutorial 2hr
+4/13/2020
+Wrote the main function along with assisting in creating the rooms class along with some of the functions for the player.
+2hr
+4/14/2020
+Worked on the player class specifically making sure we could move from room to room and correctly calculate the room and position of player 2hr
+4/18/2020
+Worked on the player class along with the main function to make sure everything was working fine along with debugging it. 3 hr
+4/20/2020
+Made comments to make the code presentable. 30 min
+Did the presentation for TA 15 min
+

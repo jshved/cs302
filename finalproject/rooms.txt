@@ -1,0 +1,6 @@
+m
+0 is start room
+1 is end room 
+2 is boss room
+3 is empty room
+4 Point room that gives a random number of points

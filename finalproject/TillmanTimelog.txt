@@ -1,0 +1,28 @@
+Time Spent:
+
+3/14/2020
+Installing Unity and connecting to the repo - 30 minutes
+Unity Sidescroller tutorial - 30 minutes (Couldn't upload the tutorial because it's too large)
+Learning C# Syntax online - 45 minutes
+Learning how to create a database - 30 minutes
+Learning how to connect the database to Unity - 45 minutes
+Brainstorming potential project ideas -  1 hour
+
+4/13/2020
+Worked on generating random dungeons with different probabilities for each type of room - 2 hours
+
+4/18/2020
+Coded the boss rooms and made the enemy class to house the bosses - 3 hours
+
+4/19/2020
+Cleaned up the text output to get ready for demo - 3 hours
+Ported the project to GitHub, fixed segfaults, and wrote the makefile - 3 hours
+
+4/20/2020
+Demo and recorded presentation - 1 hour
+
+4/22/2020
+Fixing bugs and moving project to GitHub for demo - 2 hours
+
+4/25/2020
+Commenting code for submission - 30 minutes
