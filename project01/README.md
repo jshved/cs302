@@ -1,6 +1,6 @@
 # Project 1 - Parsing Music Files/Data
 
-## [Project 1 Write Up](https://web.eecs.utk.edu/~semrich/ds20/assignments/proj01.html)
+[**Project 1 Write Up**](https://web.eecs.utk.edu/~semrich/ds20/assignments/proj01.html)
 
     // lib_info.cpp
     // Project 1
