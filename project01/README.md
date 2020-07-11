@@ -57,9 +57,10 @@ Running `lib_info` on the `.txt` file will produce the following output
 
 Typing `make` in the base directory of the project will compile all of the `.cpp` and `.hpp` files.
 
-`$ ~/project01> make`
-
+        ~/project01>
+        $ make
 
 ## Running the Program
 
-`$ ~/project01> ./lib_info file.txt`
+        ~/project01> 
+        $ ./lib_info file.txt
