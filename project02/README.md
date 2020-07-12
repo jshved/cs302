@@ -1,6 +1,6 @@
 # Project 2 - Sorting List-Based Strings and Numbers
 
-**[Project 2 Write Up](https://web.eecs.utk.edu/~semrich/ds20/assignments/proj02.html)**
+**[Project 2 Write Up](https://github.com/Logant08/cs_302/blob/master/project02/project02.pdf)**
 
 
 
