@@ -1,8 +1,13 @@
 # Project 2 - Sorting List-Based Strings and Numbers
 
-**[Project 2 Write Up](https://github.com/Logant08/cs_302/blob/master/project02/project02.pdf)**
+**[Project 2 Write Up](https://github.com/logantillman/cs_302/blob/master/project02/project02.pdf)**
 
+## Data Structures / Algorithms Used
 
+* STL Sort
+* Qsort
+* Merge Sort
+* Quick Sort
 
 ## Compile Instructions
 
