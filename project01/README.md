@@ -1,6 +1,12 @@
 # Project 1 - Parsing Music Files/Data
 
-**[Project 1 Write Up](https://github.com/Logant08/cs_302/blob/master/project01/project01.pdf)**
+**[Project 1 Write Up](https://github.com/logantillman/cs_302/blob/master/project01/project01.pdf)**
+
+## Data Structures / Algorithms Used
+
+* STL Map
+
+## Project Info
 
     // lib_info.cpp
     // Project 1
