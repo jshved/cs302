@@ -2,6 +2,10 @@
 
 **[Project 3 Write Up](https://github.com/Logant08/cs_302/blob/master/project03/project03.pdf)**
 
+## Data Structures / Algorithms Used
+
+* Disjoint Sets
+
 ## Scoring Chart
 
 * P - Purple: worth 2 points
